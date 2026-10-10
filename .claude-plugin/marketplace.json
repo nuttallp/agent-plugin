@@ -1,0 +1,13 @@
+{
+  "name": "clypmint",
+  "owner": {
+    "name": "Clypmint"
+  },
+  "description": "Clypmint tools and skills for editing videos in Claude.",
+  "plugins": [
+    {
+      "name": "clypmint",
+      "source": "./plugins/clypmint"
+    }
+  ]
+}

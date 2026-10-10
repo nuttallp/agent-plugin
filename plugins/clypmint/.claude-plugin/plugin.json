@@ -1,0 +1,20 @@
+{
+  "name": "clypmint",
+  "displayName": "Clypmint",
+  "version": "1.1.1",
+  "description": "Create, edit, review and schedule Clypmint videos through conversation and visual cards.",
+  "author": {
+    "name": "Clypmint",
+    "url": "https://clypmint.com"
+  },
+  "homepage": "https://clypmint.com/claude",
+  "keywords": [
+    "video editing",
+    "captions",
+    "b-roll",
+    "motion",
+    "editing styles"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/nuttallp/clypmint-claude"
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "clypmint": {
+      "type": "http",
+      "url": "https://clypmint.com/mcp"
+    }
+  }
+}
