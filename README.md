@@ -19,7 +19,14 @@ The plugin includes a Node.js 18+ upload helper for a local video you explicitly
 
 ## Install in Codex
 
-Run `codex plugin marketplace add nuttallp/clypmint-claude --ref main` in the local desktop environment. Open Plugins, select the Clypmint marketplace and install Clypmint. Connect your account and start a new chat. This Git marketplace is separate from OpenAI public directory publication.
+Run these commands in the local desktop environment:
+
+```sh
+codex plugin marketplace add nuttallp/clypmint-claude --ref main
+codex plugin add clypmint@clypmint
+```
+
+Open a new chat with the plugin enabled and connect your account. You can also install from the Clypmint marketplace in the desktop app's Plugins page. This Git marketplace is separate from OpenAI public directory publication.
 
 The portable package lives in `plugins/clypmint-codex`; the Claude-compatible package lives in `plugins/clypmint`. Both use the current shared workflow and the same hosted server.
 

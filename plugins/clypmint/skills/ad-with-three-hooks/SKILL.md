@@ -1,12 +1,14 @@
 ---
 name: ad-with-three-hooks
-description: Turn footage into a paid-social ad with Clypmint - three different openings (hooks) on one body, in the shapes the ad platforms want. Use for "make this an ad", "give me 3 hooks", "ad variations", "edit all our ads".
+description: Edit real footage into a Clypmint ad with multiple hooks and formats, then inspect and revise a selected output.
 ---
 
-1. `get_profile`: credits left. An ad with 3 hooks in 2 formats costs 3 + 1 a minute + 3 for each of the 5 extra outputs.
-2. Ask only for what is missing: the offer and the action you want, the shapes (9:16 for Reels/TikTok, 1:1 or 4:5 for feeds), the speaker's name spelled right, sound effects, music (`import_asset` gives a `music_staging_key`).
-3. Price it: `edit_video { purpose: 'ad', hooks: 3, formats: ['9:16', '1:1'], dry_run: true }`; go ahead with their yes.
-4. `edit_video { purpose: 'ad', hooks: 3, formats, sound_effects, speaker_name, instructions, style_id?, operation_id }` with the file, the private upload link (Claude Code: the bundled `upload.mjs`), or `source_url` where links are open.
-5. Narrate with `get_video_activity`; `check_video` lists every output (`main-1-9x16`, `hook-2-9x16`, `hook-3-9x16`, and each format). Never say ready before it does.
-6. Change one opening: `revise_video { video_id, output_id: 'hook-2-9x16', change: 'open on the price' }` (one change round). Exact fixes are free: `apply_edits` for a scene's text or picture, `fix_captions` for a name. Undo with `restore_version`.
-7. For many ads, repeat per video with its own `operation_id`, and `remember` what the brand always wants (tone, CTA, spellings).
+Read the main video-editing skill. Reuse the offer, approved claims, call to action, speaker spelling, shape and sound direction already supplied. Browse ready styles when the look is undecided.
+
+Estimate through `edit_video` with `purpose: ad`, the requested hooks/formats and `dry_run: true`. Include known source duration. Use the actual returned quote and account rights. Existing authorization covers the agreed job; resolve a material change in cost or scope before admission.
+
+Send the selected footage with the complete brief and one stable operation ID. When attachments are unsupported, obtain the private upload link; local coding environments use the main skill's upload helper with the explicitly selected file. Preserve retries and the original arguments.
+
+Follow real activity with `get_video_activity`; `check_video` establishes readiness and lists every output. Watch each opening and the full body. Keep the selected `output_id` for a revision. Inspect `get_project_context`; use `apply_edits` or `fix_captions` for an exact supported correction and `revise_video` for a creative change. Preserve the approved offer and unrelated footage, cuts and sound. Use versions to undo.
+
+Making an ad does not authorize running or posting it. Retain a reviewable export and separate publication approval.
