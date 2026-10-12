@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "clypmint": {
+      "type": "streamable-http",
+      "url": "https://clypmint.com/mcp"
+    }
+  },
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
+}

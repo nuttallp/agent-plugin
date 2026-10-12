@@ -28,9 +28,14 @@ This repository is the Clypmint-authored integration. Directory submission and A
 - “Show me video editing styles.”
 - “Edit this clip with readable captions and fast cuts.”
 - “Make a 30-second faceless video from this script.”
-- “Make the opening of my latest video faster.”
-- “Plan a month of content, then show me the concepts before rendering.”
-- “Prepare one video each weekday and save it for review.”
+- “Make 10 faceless videos about budgeting for nurses and schedule them over the next month.”
+- “Clip this podcast into vertical shorts.”
+- “Make this an ad with 3 hooks, vertical and square.”
+- “Fix the brand name in the captions, and remember how it is spelled.”
+- “Make the opening of my latest video faster.” · “Undo that.”
+- “How many credits do I have left?”
+
+The plugin ships three recipe skills beside the main one: `month-of-faceless-posts`, `clip-podcast-into-shorts` and `ad-with-three-hooks`. Every tool that spends says its credit cost and accepts `dry_run: true` to price a request first.
 
 Claude asks for missing decisions in the conversation. Clypmint’s cards show previews and results. Supported footage uses an attachment or a private upload page. Exact-script creation supports 15, 30 and 60 seconds. Shared image/audio transfer depends on host file support; the current direct import accepts OpenAI-provided files up to 32 MiB. It does not access an entire conversation or asset library automatically.
 
