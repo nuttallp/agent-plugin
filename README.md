@@ -1,4 +1,4 @@
-# Clypmint for Claude
+# Clypmint for Claude and Codex
 
 Create and edit videos through conversation. Claude develops the idea, script and changes; Clypmint shows editing styles, progress, playable video and the content calendar. The same project remains editable in Clypmint Studio.
 
@@ -16,6 +16,12 @@ claude mcp add --transport http clypmint https://clypmint.com/mcp
 ```
 
 The plugin includes a Node.js 18+ upload helper for a local video you explicitly select. It uses the private upload link returned by Clypmint; it does not read saved credentials.
+
+## Install in Codex
+
+Run `codex plugin marketplace add nuttallp/clypmint-claude --ref main` in the local desktop environment. Open Plugins, select the Clypmint marketplace and install Clypmint. Connect your account and start a new chat. This Git marketplace is separate from OpenAI public directory publication.
+
+The portable package lives in `plugins/clypmint-codex`; the Claude-compatible package lives in `plugins/clypmint`. Both use the current shared workflow and the same hosted server.
 
 ## Connect in Claude
 

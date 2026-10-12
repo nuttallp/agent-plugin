@@ -1,0 +1,48 @@
+{
+  "name": "clypmint",
+  "version": "1.3.1",
+  "description": "Create, edit and revise videos with your AI, with visual previews and approved publishing receipts.",
+  "author": {
+    "name": "Clypmint",
+    "email": "parker@clypmint.com",
+    "url": "https://clypmint.com"
+  },
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "homepage": "https://clypmint.com/chatgpt",
+  "keywords": [
+    "video",
+    "editing",
+    "captions"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Clypmint",
+        "shortDescription": "Edit videos with your AI",
+        "longDescription": "Develop the brief with your AI. Clypmint edits the footage or approved script, returns visual results and continues the same project in Studio. Account rights and explicit publishing approval apply.",
+        "developerName": "Clypmint",
+        "category": "Creativity",
+        "websiteURL": "https://clypmint.com",
+        "supportURL": "https://clypmint.com/chatgpt",
+        "privacyPolicyURL": "https://clypmint.com/legal/privacy",
+        "termsOfServiceURL": "https://clypmint.com/legal/terms",
+        "brandColor": "#111111",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/composer-icon.png",
+        "brandColorDark": "#FFFFFF",
+        "defaultPrompt": [
+          "Edit my video, then help me revise it.",
+          "Make a video from my approved script.",
+          "Inspect my video and fix a caption or scene."
+        ],
+        "capabilities": [
+          "Edit and create videos",
+          "Review and revise videos",
+          "Browse and save styles",
+          "Schedule approved content"
+        ]
+      },
+      "onboardingSkill": "./skills/edit-video/SKILL.md"
+    }
+  }
+}
