@@ -11,6 +11,10 @@ const claude = json('plugins/clypmint/.claude-plugin/plugin.json');
 assert.equal(openai.version, codex.version);
 assert.equal(openai.version, claude.version);
 assert.equal(claude.repository, 'https://github.com/nuttallp/agent-plugin');
+assert.equal(claude.privacyPolicyUrl, 'https://clypmint.com/legal/privacy');
+assert.ok(existsSync(resolve(root, 'plugins/clypmint', claude.icon)));
+for (const file of readdirSync(resolve(root, 'plugins/clypmint/skills'), { recursive: true }))
+  assert.ok(!String(file).includes('.test.'), 'Test fixtures must not ship in the plugin');
 assert.equal(codex.extensions['com.openai'].review, undefined);
 for (const [base, main] of [
   ['chatgpt', 'edit-video'],

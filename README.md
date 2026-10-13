@@ -60,6 +60,6 @@ If your existing connection only exposes a few actions, use its **Refresh tools 
 
 Your connected Clypmint account's rights and credits apply. Creating or reviewing a video does not authorize posting it. Publishing requires your explicit approval, supported permissions and connected social accounts. A calendar draft, provider-confirmed schedule and published post are distinct states. Recurring creation requires a supported host scheduler; a written plan is not an active automation.
 
-Credentials stay in the host's sign-in flow. Never commit access tokens, private upload links or signed media URLs. The integration files are MIT licensed; hosted service rights are separate.
+Credentials stay in the host's sign-in flow. The local upload helper accepts a short-lived Clypmint upload link as an explicit argument for the file the user selected. It never reads OAuth credentials, environment variables or saved account files. This temporary upload code is sent to Clypmint’s own service and is omitted from direct signed-storage uploads. Never commit access tokens, private upload links or signed media URLs. The integration files are MIT licensed; hosted service rights are separate.
 
 [Setup and examples](https://clypmint.com/integrations) · [Privacy](https://clypmint.com/legal/privacy) · [Terms](https://clypmint.com/legal/terms) · [Support](mailto:parker@clypmint.com)
