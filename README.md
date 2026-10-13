@@ -1,64 +1,65 @@
-# Clypmint for Claude and Codex
+# Clypmint Agent Plugin
 
-Create and edit videos through conversation. Claude develops the idea, script and changes; Clypmint shows editing styles, progress, playable video and the content calendar. The same project remains editable in Clypmint Studio.
+Make and edit videos in ChatGPT, Claude and Codex. Install one plugin to get the Clypmint connection and all four agent skills. Develop the brief in chat, preview the result, ask for changes, and continue the same project in [Clypmint Studio](https://clypmint.com/studio).
 
-## Install in Claude Code
+## Install
+
+### Claude Code
 
 ```text
-/plugin marketplace add nuttallp/clypmint-claude
+/plugin marketplace add nuttallp/agent-plugin
 /plugin install clypmint@clypmint
 ```
 
-Authenticate the Clypmint connection when prompted. To use the remote tools without the bundled workflow, run:
+Use `/mcp` to sign in to your Clypmint account, then start a new session.
+
+### Codex and ChatGPT Work on desktop
 
 ```sh
-claude mcp add --transport http clypmint https://clypmint.com/mcp
-```
-
-The plugin includes a Node.js 18+ upload helper for a local video you explicitly select. It uses the private upload link returned by Clypmint; it does not read saved credentials.
-
-## Install in Codex
-
-Run these commands in the local desktop environment:
-
-```sh
-codex plugin marketplace add nuttallp/clypmint-claude --ref main
+codex plugin marketplace add nuttallp/agent-plugin --ref main
 codex plugin add clypmint@clypmint
 ```
 
-Open a new chat with the plugin enabled and connect your account. You can also install from the Clypmint marketplace in the desktop app's Plugins page. This Git marketplace is separate from OpenAI public directory publication.
+Enable Clypmint in the desktop Plugins page, complete account sign-in, and start a new chat. No separate skill installation is needed. Git marketplace support depends on the host surface; these commands run on your computer, not in a browser-only conversation.
 
-The portable package lives in `plugins/clypmint-codex`; the Claude-compatible package lives in `plugins/clypmint`. Both use the current shared workflow and the same hosted server.
+### ChatGPT and Claude in the browser
 
-## Connect in Claude
+Use [Clypmint setup](https://clypmint.com/integrations) for your host. The hosted endpoint is `https://clypmint.com/mcp` and uses your Clypmint account's OAuth connection.
 
-Open **Customize → Connectors → Add custom connector** and enter `https://clypmint.com/mcp`. Sign in to your Clypmint account. Existing connections can discover new tools using **More options → Refresh tools list**. Refreshing tools does not grant new publishing permissions.
-
-This repository is the Clypmint-authored integration. Directory submission and Anthropic verification are separate processes; this README does not claim directory approval.
+A **full plugin** bundles tools and skills. A **custom MCP connection** exposes tools but does not automatically install skills from GitHub. For OpenAI distribution, Clypmint's server supplies the four skills during the developer portal's Scan Tools step; installed plugins receive the reviewed version. Claude distributes the skills and MCP connection together through the Git-hosted plugin bundle. Public directory review and publication are separate from this repository's availability.
 
 ## Try it
 
-- “Show me video editing styles.”
-- “Edit this clip with readable captions and fast cuts.”
-- “Make a 30-second faceless video from this script.”
-- “Make the opening of my latest video faster.”
-- “Plan a month of content, then show me the concepts before rendering.”
-- “Prepare one video each weekday and save it for review.”
+- “Use Clypmint to edit this video. Show me the styles first.”
+- “Make a 30-second vertical video from my approved script.”
+- “Turn my podcast into Shorts with complete thoughts.”
+- “Make an ad with three hooks, then revise the strongest one.”
+- “Plan a month of faceless videos. Show me the concepts before rendering.”
 
-Claude asks for missing decisions in the conversation. Clypmint’s cards show previews and results. Supported footage uses an attachment or a private upload page. Exact-script creation supports 15, 30 and 60 seconds. Shared image/audio transfer depends on host file support; the current direct import accepts OpenAI-provided files up to 32 MiB. It does not access an entire conversation or asset library automatically.
+You can ask naturally; installed skills activate automatically when relevant. Idea-to-video needs no footage. When a chat cannot transfer your attachment, Clypmint returns a private upload page. Local agents include an upload helper for the file you choose.
 
-## Scheduling and recurring work
+## Included
 
-Scheduling requires a publishing-enabled Clypmint account, separate publishing consent and connected social accounts. Availability is currently a limited rollout. A provider-confirmed schedule is distinct from a draft, a pending request or an actual published post.
+| Package                            | Contents                                                                           |
+| ---------------------------------- | ---------------------------------------------------------------------------------- |
+| `chatgpt/`                         | OpenAI submission package: four skills, supporting files, icons and MCP connection |
+| `plugins/clypmint-codex/`          | Portable ChatGPT Work/Codex marketplace package                                    |
+| `plugins/clypmint/`                | Claude-compatible plugin: skills and remote MCP connection                         |
+| `.agents/plugins/marketplace.json` | OpenAI marketplace catalog                                                         |
+| `.claude-plugin/marketplace.json`  | Claude marketplace catalog                                                         |
 
-Recurring creative work runs through the host’s supported scheduler. Claude Code alone does not provide an always-on cloud schedule. Set the creative brief, cadence, timezone, generation limit and publication policy in chat. The workflow keeps an occurrence ledger, reuses operation IDs after interruptions, and reports failures. It never treats a written plan as an active automation. Approved publication appointments continue at the publishing provider after the chat closes.
+All packages include editing, month-of-faceless-posts, podcast-to-Shorts and three-hook-ad workflows. The editing skill is named `edit-video` on OpenAI and `clypmint-video-editing` on Claude. The plugin identity stays `clypmint` across hosts.
 
-Editing, style copying and downloads follow the linked account’s existing limits. The plugin does not sell subscriptions or change billing.
+## Updates and troubleshooting
 
-## Privacy and support
+For Codex, run `codex plugin marketplace upgrade clypmint`, update the installed plugin through the desktop Plugins page and start a new chat. In Claude Code, run `/plugin marketplace update clypmint` and `/plugin update clypmint@clypmint`, then start a new session.
 
-The server receives explicitly supplied media, editing instructions and selected project/account identifiers. Authorized publishing sends selected media and metadata to Clypmint’s scheduling provider and the connected destination. Credentials stay in the supported account connection flow. Do not commit access tokens, private upload links, signed media URLs or reviewer credentials.
+If your existing connection only exposes a few actions, use its **Refresh tools list** option and start a new chat. The current server exposes 34 tools, including `create_video`, `plan_content`, `list_assets` and `schedule_plan`. Tool refresh is separate from installing/updating the bundled skills. A missing tool is unavailable; do not assume a skill makes it callable.
 
-[Privacy policy](https://clypmint.com/legal/privacy) · [Terms](https://clypmint.com/legal/terms) · [Documentation](https://clypmint.com/claude) · [Support](mailto:parker@clypmint.com)
+## Account and publishing
 
-The integration files are MIT licensed. The hosted Clypmint service and its account rights are separate.
+Your connected Clypmint account's rights and credits apply. Creating or reviewing a video does not authorize posting it. Publishing requires your explicit approval, supported permissions and connected social accounts. A calendar draft, provider-confirmed schedule and published post are distinct states. Recurring creation requires a supported host scheduler; a written plan is not an active automation.
+
+Credentials stay in the host's sign-in flow. Never commit access tokens, private upload links or signed media URLs. The integration files are MIT licensed; hosted service rights are separate.
+
+[Setup and examples](https://clypmint.com/integrations) · [Privacy](https://clypmint.com/legal/privacy) · [Terms](https://clypmint.com/legal/terms) · [Support](mailto:parker@clypmint.com)
