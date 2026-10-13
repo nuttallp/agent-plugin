@@ -6,6 +6,8 @@ Use this reference when the person requests recurring generation or a batch of s
 
 Resolve only missing decisions: brand/audience, source library or exact scripts, style, duration/format, cadence, IANA timezone, per-run generation limit, and review/publication policy. Reuse existing consent and preferences. Default to a proposed draft-only workflow when publication has not been requested; do not silently activate a schedule with unspecified paid usage.
 
+Use the main skill's creative-brief/asset references for calibration: inspect actual ready samples/inputs, recommend relevant optional uploads, and pin the accepted style version and narrator for narrated films. Ready Serif Editorial Launch fits type/music launch motion with no narrator; Bold Navy Statement fits narrated statements/explainers. An idea needs no supplied assets. Import receipts prove transport; inspect supplied asset use in the first film before carrying the brief across a batch.
+
 Save the agreed brief and ledger in a host-accessible Page, project file or other authorized durable document. A cloud task cannot rely on a local path or this chat's unsaved working memory. Store IDs and arguments, never credentials, private upload links or expiring media URLs.
 
 Each ledger item holds: plan ID, stable item ID, local occurrence, timezone, concept and exact script, asset IDs, immutable creation arguments and operation ID, video/import ID, selected output/version ID, caption and platform choices, publishing operation ID, provider receipt/status and last checked time. Append each receipt before moving to the next item. If saving fails, stop admitting new items and retain the existing operation ID for recovery.
