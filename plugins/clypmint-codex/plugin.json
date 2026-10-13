@@ -1,6 +1,6 @@
 {
   "name": "clypmint",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Create, edit and revise videos with your AI, with visual previews and approved publishing receipts.",
   "author": { "name": "Clypmint", "email": "parker@clypmint.com", "url": "https://clypmint.com" },
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",

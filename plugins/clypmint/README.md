@@ -5,7 +5,7 @@ Create and edit videos through conversation. Claude develops the idea, script an
 ## Install in Claude Code
 
 ```text
-/plugin marketplace add nuttallp/clypmint-claude
+/plugin marketplace add nuttallp/agent-plugin
 /plugin install clypmint@clypmint
 ```
 

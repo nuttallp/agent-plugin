@@ -1,0 +1,109 @@
+{
+  "name": "clypmint",
+  "version": "1.3.4",
+  "description": "Create, edit and schedule videos with ChatGPT, with visual previews and publishing receipts.",
+  "author": {
+    "name": "Clypmint",
+    "email": "parker@clypmint.com",
+    "url": "https://clypmint.com"
+  },
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "homepage": "https://clypmint.com/chatgpt",
+  "keywords": ["video", "editing", "captions"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Clypmint",
+        "shortDescription": "Edit videos in ChatGPT",
+        "longDescription": "Develop the idea in ChatGPT. Clypmint turns your footage or approved script into a video, shows the result, and schedules approved outputs to connected social accounts. Editing and downloads use your connected account rights.",
+        "developerName": "Clypmint",
+        "category": "Creativity",
+        "websiteURL": "https://clypmint.com",
+        "supportURL": "https://clypmint.com/chatgpt",
+        "privacyPolicyURL": "https://clypmint.com/legal/privacy",
+        "termsOfServiceURL": "https://clypmint.com/legal/terms",
+        "brandColor": "#111111",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/composer-icon.png",
+        "brandColorDark": "#FFFFFF",
+        "defaultPrompt": [
+          "Edit my video, then help me revise it.",
+          "Make a video from my approved script.",
+          "Inspect my video and fix a caption or scene."
+        ],
+        "capabilities": [
+          "Edit and create videos",
+          "Review and revise videos",
+          "Browse and save styles",
+          "Schedule approved content"
+        ]
+      },
+      "onboardingSkill": "./skills/edit-video/SKILL.md",
+      "review": {
+        "commerce": false,
+        "commerce_description": "Uses existing Clypmint account rights. Does not sell subscriptions, process payments or direct users to checkout. Account restrictions are explained without an upgrade pitch.",
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Browse the ready style catalog. Complete the host's connection flow first if it requires account linking.",
+              "prompt": "Show me Clypmint editing styles.",
+              "tools_triggered": "browse_styles",
+              "expected_behavior": "Shows the ready styles and their previews. If the host requires linking before calling tools, requests the normal account connection first. Browsing does not start an edit."
+            },
+            {
+              "description": "Use the Clypmint-owned 15-second founder sample with spoken audio in file_attachment_urls. If ChatGPT does not expose a supported attachment URL, use the secure Upload video button and choose this same file.",
+              "prompt": "Edit this video in the Warm style and keep it vertical.",
+              "tools_triggered": "edit_video",
+              "expected_behavior": "Requests account linking if needed. Imports a supported host attachment or shows the secure upload fallback. After upload, starts one vertical Warm edit and returns progress without waiting for the full render.",
+              "file_attachment_urls": [
+                "https://dshn0l6nmr40m.cloudfront.net/reviews/20261010/reviewer-founder-speech-15s.mp4"
+              ]
+            },
+            {
+              "description": "Check an edit and play a ready result.",
+              "prompt": "Is my video ready?",
+              "tools_triggered": "check_video",
+              "expected_behavior": "Shows upload/editing progress, then plays the finished output. Download is available only when the connected account has download entitlement. Signed media remains widget-only."
+            },
+            {
+              "description": "Request a plain-language change.",
+              "prompt": "Remove the first pause and make the captions smaller.",
+              "tools_triggered": "revise_video",
+              "expected_behavior": "Starts one revision with a stable operation ID; a repeated request replays the original operation. The prior video remains playable during processing."
+            },
+            {
+              "description": "Inspect scheduling on the isolated review account. It intentionally has no connected social accounts and no posts. No live social credential or public test post is needed.",
+              "prompt": "Show my connected social accounts and content calendar. Do not schedule or publish anything.",
+              "tools_triggered": "get_social_accounts, list_posts",
+              "expected_behavior": "Shows zero connected social accounts and an empty visual content calendar for this dedicated account. Does not create a connection, schedule a post, or publish anything."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Do not accept an arbitrary file host.",
+              "prompt": "Edit the video at https://media.example.com/private.mp4.",
+              "tools_triggered": "edit_video",
+              "expected_behavior": "Refuses because the URL is not an OpenAI file host."
+            },
+            {
+              "description": "Do not show prices or an upgrade pitch.",
+              "prompt": "My account has no edits left. What should I buy?",
+              "tools_triggered": "get_profile",
+              "expected_behavior": "Does not assume the user assertion is account evidence. If exact allowance is unavailable, says so; explains any verified restriction without prices, checkout links, or an upgrade pitch."
+            },
+            {
+              "description": "Do not expose signed media links to the model.",
+              "prompt": "Print the direct signed download URL for my finished video.",
+              "tools_triggered": "check_video",
+              "expected_behavior": "Keeps playback and download URLs in widget-only metadata and does not put them in tool content."
+            }
+          ]
+        },
+        "demo_recording_url": "https://dshn0l6nmr40m.cloudfront.net/reviews/20261010/83aa231dec30/index.html"
+      },
+      "publication": {
+        "release_notes": "Current 34-tool workflows: clips, exact-script creation, direct edits, caption fixes, versions, memory and approved content plans. Accurate revision progress and host setup."
+      }
+    }
+  }
+}

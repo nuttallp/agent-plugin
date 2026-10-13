@@ -1,0 +1,9 @@
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: 'mcp'
+      value: 'clypmint'
+      description: 'Create, edit and review Clypmint videos'
+      transport: 'streamable_http'
+      url: 'https://clypmint.com/mcp'
