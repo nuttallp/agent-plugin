@@ -52,6 +52,14 @@ All packages include editing, month-of-faceless-posts, podcast-to-Shorts and thr
 
 ## Updates and troubleshooting
 
+If you already made a personal ChatGPT custom app, you can add the bundled skills to that same installed plugin without creating a second connection. In its **More actions** menu, download the existing plugin ZIP. From this repository run:
+
+```sh
+node scripts/package-personal-chatgpt.mjs ~/Downloads/plugin.zip ./clypmint-personal-update.zip
+```
+
+Use **Upload new version** on that same plugin and choose the new ZIP. The helper preserves its existing identity and app binding, includes all four current skills, and leaves sign-in permissions unchanged. Confirm **Skills 4** and the package version in the plugin details, then refresh tools in **Manage** and start a new chat. A failed tool refresh is still a host error to resolve; the bundled skills do not create missing actions.
+
 For Codex, run `codex plugin marketplace upgrade clypmint`, update the installed plugin through the desktop Plugins page and start a new chat. In Claude Code, run `/plugin marketplace update clypmint` and `/plugin update clypmint@clypmint`, then start a new session.
 
 If your existing connection only exposes a few actions, use its **Refresh tools list** option and start a new chat. The current server exposes 34 tools, including `create_video`, `plan_content`, `list_assets` and `schedule_plan`. Tool refresh is separate from installing/updating the bundled skills. A missing tool is unavailable; do not assume a skill makes it callable.
