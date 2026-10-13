@@ -10,5 +10,7 @@
   "homepage": "https://clypmint.com/claude",
   "keywords": ["video editing", "captions", "b-roll", "motion", "editing styles"],
   "license": "MIT",
-  "repository": "https://github.com/nuttallp/agent-plugin"
+  "repository": "https://github.com/nuttallp/agent-plugin",
+  "icon": "./assets/logo.png",
+  "privacyPolicyUrl": "https://clypmint.com/legal/privacy"
 }
