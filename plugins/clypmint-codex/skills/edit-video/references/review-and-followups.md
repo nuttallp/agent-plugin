@@ -25,7 +25,7 @@ Receipts can prove the requested API path/script/assets were preserved, not that
 
 ## Add a voiceover while keeping a motion style
 
-A style with `inputs.voice: none` remains silent at creation. When the user later wants narration while retaining that look, add it through the same project's `revise_video`; do not switch the style or create a new project. Develop a concise exact voiceover, choose a catalog narrator, pin the active version when the host supports it, and omit the replacement `voice` field. Begin `change` with these two lines, followed by the user's motion and sound instructions:
+A style with `inputs.voice: none` defaults to silent motion. An explicit voiceover request at creation overrides that default while preserving the visual style. When the user later wants narration while retaining that look, add it through the same project's `revise_video`; do not switch the style or create a new project. Develop a concise exact voiceover, choose a catalog narrator, pin the active version when the host supports it, and omit the replacement `voice` field. Begin `change` with these two lines, followed by the user's motion and sound instructions:
 
 ```text
 Narrator: liam
@@ -33,4 +33,4 @@ Narration: Snap a photo of your meal and review your calorie and macro estimates
 Keep the editorial typography. Improve the motion and add camera and UI sound effects.
 ```
 
-The exact script must occupy one line. Addition uses native narration and the music/SFX mixer; its spoken clock is separate from the typography cues. Motion and sound notes can be included in this same round. Preserve the full arguments on retries. A refusal keeps the current film; report it and do not start a replacement video. Check the resulting active version and actual narration, then watch/listen or let the user review it. `narration.can_change: false` after addition means voice-only replacement of this separate clock is not yet supported, not that the film has no voice.
+The exact script must occupy one line. Addition uses native narration and the music/SFX mixer; its recorded words and timestamps replace the silent typography cues, so rebuild the same project’s scenes around the actual speech. Motion and sound notes can be included in this same round. Preserve the full arguments on retries. A refusal keeps the current film; report it and do not start a replacement video. Check the resulting active version and actual narration, then watch/listen or let the user review it. `narration.can_change: false` after addition means voice-only replacement of an added narration is not yet supported, not that the film has no voice.
