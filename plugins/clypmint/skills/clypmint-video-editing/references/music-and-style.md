@@ -1,23 +1,25 @@
-# Music, action montage and faithful style copies
+# Music and styles
 
-A reference's music description is not a license, a supplied song, or proof that an unrelated house bed matches it. The rejected house `drive` track is retired. Never choose or regenerate it. Preserve original camera audio unless the user asks to remove it.
+## The user's song
 
-## Add or remove music
+- At creation, the song is a field, never a sentence. In ChatGPT, `import_asset` with the attached `file`; with a public link to the file, `import_asset` with `url`. Either way pass the returned key as `music_staging_key` to `edit_video` or `create_video`.
+- No link and no attachment (a song attached in Claude, a file on their computer): `edit_video` with `song_upload: true`. The private upload link then takes the video and the song together.
+- A montage with a song plays only the song unless `camera_sound: "keep"`. A talking video keeps the speech and lays the song under it.
+- Music but no song of their own ("add some calm background music"): Clypmint lays its own bed, calm or upbeat, from words. At creation `create_video` with `music_bed: true` (say "calm" or "upbeat" in instructions); on a video already made, `revise_video` with "Add a calm music bed under the narration". Never name or fetch a stock song yourself, and never put a house bed where they gave you their own song.
 
-At creation, import the user's selected audio with `import_asset` and pass its actual `asset_staging_key` as `music_staging_key` to `edit_video` or `create_video`. A file needs a genuine host attachment or a direct HTTPS file URL; never invent one or send a local path. Without that transport, use Studio's Music panel to upload a song. Do not substitute a generic track for a specific requested style. A music-off instruction wins over a style default.
+## Change the music of a video already made
 
-For an existing video, read `get_project_context`, pin the active `base_version` and chosen `output_id`, and use `apply_edits`:
+Read `get_project_context` for the version, then one `apply_edits` call:
 
-- Remove only added music: `{"op":"music","enabled":false}`. Original speech and camera sound stay.
-- Add/replace an owned song: `{"op":"music","enabled":true,"music_staging_key":"<returned key>","level_db":-18}`.
-- Beat-sync an existing action montage: add `"beat_sync":true` to that music operation. Only source-shot montages support cut retiming. Clypmint measures the uploaded song, adjusts bounded shot ends without cutting words, and freezes the same song offset for preview/export. Weak evidence, a short song or too few safely alignable cuts returns a failure and preserves the previous version. Do not call a song merely laid under footage beat-synced.
+- Remove added music: `{"op": "music", "enabled": false}`. The camera sound and speech stay.
+- Add or swap a song: `{"op": "music", "enabled": true, "music_staging_key": "<key from import_asset>", "level_db": -18}`.
+- Cut a montage to the beat: add `"beat_sync": true`. It works on montages made of source shots; a refusal keeps the video as it was, so say so.
 
-Use one stable operation ID for this change. These are direct edits, not creative revision rounds. Wait for `check_video` to confirm the new version; listen to the result or have the user review it. Sound-effect controls are separate from music. A rendered MP4 mixes audio; never tell the user that deleting an undifferentiated waveform removes only the music. Studio's Music controls render a new version from retained source audio.
+These are exact edits, and they are free. `check_video` confirms the new version.
 
-## Copy and evaluate a style
+## Styles
 
-Use `copy_style` with the real reference and retain its returned ID. Poll the same request; do not recopy a pending/failed request blindly or spend another style allowance to hide an error. Use `browse_styles` and `adjust_style` for saved copies and their returned previews. A requested copy is account-specific; reference descriptions and IDs are not universal house styles.
-
-Compare the actual reference with the generated sample: shot rhythm and action selection; full-frame/crop treatment; typography and animated devices; transitions; music-driven cuts and deliberate effects. Separate watermarks, usernames and platform end cards from authored captions or graphics. Distinguish original audio from a copied editing method. A ready saved style proves availability, not faithful reproduction; report measured omissions and creative departures clearly. No caption overlays in a reference means do not invent dialogue captions. Action footage must preserve meaningful quiet moves, while removing waiting with actual source cuts.
-
-If no usable song was provided, say the visual edit is unscored. Never claim the source soundtrack was reproduced. Different source footage may not contain the reference's angles or dramatic moments; do not invent them.
+- `browse_styles` lists house styles and the user's saved styles (`own: true`, with `style_version`). Pass the one they name as `style_id`; leave it out when they did not choose and Clypmint picks.
+- `format` says what a style is for: `talking` (someone on camera), `faceless` (a narrated video from words), `motion` (type and music, no narrator unless a `voice` is given).
+- `copy_style` makes a new saved style from a reference video link or file; `adjust_style` changes a saved style in plain words for later videos.
+- Show a style's preview when the user is choosing. Do not describe a style the catalog does not return.

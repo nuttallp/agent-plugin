@@ -1,6 +1,6 @@
 # Clypmint Agent Plugin
 
-Make and edit videos in ChatGPT, Claude and Codex. Install one plugin to get the Clypmint connection and all four agent skills. Develop the brief in chat, preview the result, ask for changes, and continue the same project in [Clypmint Studio](https://clypmint.com/studio).
+Edit videos by chatting: cuts, captions, styles, podcast clips and revisions, in ChatGPT, Claude, Claude Code and Codex. Install one plugin to get the Clypmint connection and all four agent skills. Develop the brief in chat, preview the result, ask for changes, and continue the same project in [Clypmint Studio](https://clypmint.com/studio).
 
 ## Install
 
@@ -33,6 +33,7 @@ A **full plugin** bundles tools and skills. A **custom MCP connection** exposes 
 - “Use Clypmint to edit this video. Show me the styles first.”
 - “Make a 30-second vertical video from my approved script.”
 - “Turn my podcast into Shorts with complete thoughts.”
+- “Clip the 3 best moments about thyroid from this podcast, then use clip 2 as the intro of my video.”
 - “Make an ad with three hooks, then revise the strongest one.”
 - “Plan a month of faceless videos. Show me the concepts before rendering.”
 
@@ -62,7 +63,7 @@ Use **Upload new version** on that same plugin and choose the new ZIP. The helpe
 
 For Codex, run `codex plugin marketplace upgrade clypmint`, update the installed plugin through the desktop Plugins page and start a new chat. In Claude Code, run `/plugin marketplace update clypmint` and `/plugin update clypmint@clypmint`, then start a new session.
 
-If your existing connection only exposes a few actions, use its **Refresh tools list** option and start a new chat. The current server exposes 35 tools, including `create_video`, `plan_content`, `list_assets` and `schedule_plan`. Its identity-only account-linking tool is separate from `get_profile`, which reports account rights and usage. Tool refresh is separate from installing/updating the bundled skills. A missing tool is unavailable; do not assume a skill makes it callable.
+If your existing connection only exposes a few actions, use its **Refresh tools list** option and start a new chat. The current server exposes 28 tools, including `edit_video`, `create_video`, `plan_content` and `list_assets`; the posting tools appear only where posting is open on the account. Its identity-only account-linking tool is separate from `get_profile`, which reports account rights and usage. Tool refresh is separate from installing/updating the bundled skills. A missing tool is unavailable; do not assume a skill makes it callable.
 
 ## Account and publishing
 
