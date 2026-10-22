@@ -1,14 +1,10 @@
 ---
 name: ad-with-three-hooks
-description: Edit real footage into a Clypmint ad with multiple hooks and formats, then inspect and revise a selected output.
+description: Edit real footage into a Clypmint ad with three opening hooks and the shapes it needs, then change the one the user picks.
 ---
 
-Read the main video-editing skill. Reuse the offer, approved claims, call to action, speaker spelling, shape and sound direction already supplied. Browse ready styles when the look is undecided.
+"Make an ad with three hooks": call `edit_video` with `purpose: "ad"` (three hooks by default; `hooks` 1-3 to choose) in your first reply. Put their shapes in `formats` (the main one first), a length in `length`, a style they named in `style_id`, the speaker's name in `speaker_name`, and only the rest of what they said (the offer, the call to action) in `instructions`, in their words.
 
-Estimate through `edit_video` with `purpose: ad`, the requested hooks/formats and `dry_run: true`. Include known source duration. Use the actual returned quote and account rights. Existing authorization covers the agreed job; resolve a material change in cost or scope before admission.
+Attach the footage in ChatGPT; elsewhere give the user the private upload link from the answer.
 
-Send the selected footage with the complete brief and one stable operation ID. When attachments are unsupported, obtain the private upload link; local coding environments use the main skill's upload helper with the explicitly selected file. Preserve retries and the original arguments.
-
-Follow real activity with `get_video_activity`; `check_video` establishes readiness and lists every output. Watch each opening and the full body. Keep the selected `output_id` for a revision. Inspect `get_project_context`; use `apply_edits` or `fix_captions` for an exact supported correction and `revise_video` for a creative change. Preserve the approved offer and unrelated footage, cuts and sound. Use versions to undo.
-
-Making an ad does not authorize running or posting it. Retain a reviewable export and separate publication approval.
+`check_video` lists the main cut and each hook as outputs. Show them. A change to one hook is `revise_video` with that hook's `output_id`; exact fixes are `apply_edits` and `fix_captions`. Making an ad never authorizes running or posting it.

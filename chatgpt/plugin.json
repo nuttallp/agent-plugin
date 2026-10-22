@@ -1,7 +1,7 @@
 {
   "name": "clypmint",
-  "version": "1.3.8",
-  "description": "Create, edit and schedule videos with ChatGPT, with visual previews and publishing receipts.",
+  "version": "1.5.0",
+  "description": "Create and edit videos with ChatGPT: talking videos, montages to a song, gaming highlights, podcast clips and faceless videos, with visual previews.",
   "author": {
     "name": "Clypmint",
     "email": "parker@clypmint.com",
@@ -9,13 +9,13 @@
   },
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "homepage": "https://clypmint.com/chatgpt",
-  "keywords": ["video", "editing", "captions"],
+  "keywords": ["video editing", "AI video editor", "captions", "subtitles", "podcast clips", "shorts", "reels", "tiktok", "youtube", "talking head", "montage", "gaming highlights", "faceless video", "editing styles", "MCP"],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Clypmint",
         "shortDescription": "Edit videos in ChatGPT",
-        "longDescription": "Develop the idea in ChatGPT. Clypmint turns your footage or approved script into a video, shows the result, and schedules approved outputs to connected social accounts. Editing and downloads use your connected account rights.",
+        "longDescription": "Develop the idea in ChatGPT. Clypmint turns your footage or approved script into a finished video, shows the result, and changes it when you ask. Editing and downloads use your connected account rights.",
         "developerName": "Clypmint",
         "category": "Creativity",
         "websiteURL": "https://clypmint.com",
@@ -29,13 +29,14 @@
         "defaultPrompt": [
           "Edit my video, then help me revise it.",
           "Make a video from my approved script.",
-          "Inspect my video and fix a caption or scene."
+          "Clip the 3 best moments about a topic from my podcast."
         ],
         "capabilities": [
           "Edit and create videos",
           "Review and revise videos",
           "Browse and save styles",
-          "Schedule approved content"
+          "Clip podcasts and long videos",
+          "Cut montages and gaming highlights"
         ]
       },
       "onboardingSkill": "./skills/edit-video/SKILL.md",
@@ -72,10 +73,10 @@
               "expected_behavior": "Starts one revision with a stable operation ID; a repeated request replays the original operation. The prior video remains playable during processing."
             },
             {
-              "description": "Inspect scheduling on the isolated review account. It intentionally has no connected social accounts and no posts. No live social credential or public test post is needed.",
-              "prompt": "Show my connected social accounts and content calendar. Do not schedule or publish anything.",
-              "tools_triggered": "get_social_accounts, list_posts",
-              "expected_behavior": "Shows zero connected social accounts and an empty visual content calendar for this dedicated account. Does not create a connection, schedule a post, or publish anything."
+              "description": "List the videos on the isolated review account and show where each one stands.",
+              "prompt": "Show my Clypmint videos and which ones are ready.",
+              "tools_triggered": "list_videos",
+              "expected_behavior": "Lists the account's videos with their state (ready, draft, editing or failed) and offers to open one. Starts nothing and spends no credits."
             }
           ],
           "negative": [

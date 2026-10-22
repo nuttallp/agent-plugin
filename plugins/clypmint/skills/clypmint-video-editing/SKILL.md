@@ -1,60 +1,75 @@
 ---
 name: clypmint-video-editing
-description: Develop a video brief with the user, gather their exact brand media, choose a style and narrator, and use Clypmint to make, review and revise footage or an approved script.
+description: Make and edit videos with Clypmint from a plain request. Edit the user's footage (montages, talking videos, podcast clips, ads) or make faceless videos from an idea or a script, show the result in the chat and change it when asked.
 ---
 
-Read [the capability map and host handoff](references/capabilities-and-handoff.md) when deciding what Claude should do directly, what Clypmint can execute, or how to handle an unsupported edit. For music, beat sync or copied action styles, read [music and style fidelity](references/music-and-style.md). When available, `get_workflow` returns the latest server-hosted instructions even if this installed package is older.
+The user should never have to learn how Clypmint works. Make the first tool call in your first reply. Ask a question only when the answer would change the video and you cannot reasonably guess it, and then ask one.
 
-## Start with the user's job
+## Pick the tool, fill the fields
 
-You are the creative partner; Clypmint executes the media work. Develop the user's goal into a specific brief, approved script, literal visual plan and reviewable result. Reuse their facts, brand, audience, style, sound direction and authorization. Ask only for missing decisions that would materially change the film; a first draft can resolve taste faster than another questionnaire. Read [creative brief and style direction](references/creative-brief.md) for a new film and [the MetaLog example](references/metalog-example.md) for a complete brand/portrait/logo workflow. For footage use `edit_video`; for an idea or script use `create_video`. A video from words needs no footage.
+| They say | Call |
+| --- | --- |
+| "make a 45–60 s montage of my climbing to this song" | `edit_video` `{kind: "montage", length: {min_seconds: 45, max_seconds: 60}, song_upload: true}` (or `music_staging_key` when the song came through `import_asset`) |
+| "cut this into a 40–60 s reel about the mission, focus on Kunal on the right" | `edit_video` `{kind: "talking", length: {min_seconds: 40, max_seconds: 60}, instructions: "Focus on Kunal (right side) and the parts about the mission."}` |
+| "turn my stream into a vertical highlight, keep my facecam" | `edit_video` `{formats: ["9:16"], instructions: "A gaming highlight from my stream: the big plays, my facecam on top."}`: Clypmint cuts the loud moments and stacks the facecam over the game, the HUD left out. Captions are not drawn on a gaming highlight yet; say so if they ask |
+| "turn this podcast into 10 shorts" | `edit_video` `{clips: {count: 10, shape: "9:16"}}` |
+| "make an ad with three hooks" | `edit_video` `{purpose: "ad", hooks: 3}` |
+| "make a 30 s video about X" with no footage | `create_video` `{idea: "X", seconds: 30}` |
+| they give the exact words | `create_video` `{script: "<their words, unchanged>"}` |
+| "make me a month of faceless posts for my app" | `plan_content` `{topic, days: 30, count: 30}`, show the plan, then make them with `create_videos` (10 at a time). `approve_plan` (make and post on each date) exists only where posting is open on the account: if the tool is not in your list, say posting is not open yet and make the videos without it |
 
-Read `get_profile` when account identity or allowance matters. Use the linked account's actual rights; an unavailable read is unknown, not an empty allowance. Explain verified restrictions. ChatGPT receives no subscription prices, purchase suggestion or checkout link. Other hosts may return the supported Studio billing link.
+How to fill them:
 
-For a large request, use `dry_run: true` to estimate credits before admission. The user's existing explicit authorization can cover the requested job; obtain a decision when scope or cost materially changes. Creating a video never authorizes posting it.
+- Every length, song, style, shape and count goes in its own field. `instructions` holds only anything else they asked for, in their own words, usually one sentence. Never write rule lists, capital letters, descriptions of the footage or editing techniques: Clypmint watches the footage and edits it.
+- Style: before the first edit in a conversation, read `browse_styles` once in the same turn. Their saved styles have `own: true`: when one fits the request (a climbing style for a climbing montage), pass its `style_id` and tell them you used it. When they name a style, use that one. Otherwise leave `style_id` out and Clypmint picks.
+- Shape: only crop when they ask. Send `formats` only when they named a shape or a place it goes (vertical, TikTok, Reels, Shorts: 9:16; square: 1:1; 4:5; YouTube or widescreen: 16:9, or `purpose: "youtube"`). Otherwise leave it out and the video keeps its own shape.
+- Leave out what they did not ask for. The defaults are good.
+- For an exact script, pass it unchanged and let its words set the length; `seconds` is 15, 30 or 60.
 
-## Styles and media
+## Footage, songs and pictures
 
-Use `browse_styles` for actual ready previews, content/aspect support, saved versions, required inputs and the 21 narrator auditions. Recommend one or two looks with a reason tied to this film: ready Serif Editorial Launch fits type/music launch motion (`inputs.voice: none`); Bold Navy Statement fits narrated statements/explainers (`inputs.voice: narrator`, Chris default). Follow actual catalog metadata and the user's topic/taste. Use returned IDs; private copies remain account-specific. Motion styles are silent by default. When the user wants a voiceover, preserve their chosen visual style and pass the chosen voice; the recorded speech must drive text, pictures and sound timing. Tech can fit a UI demonstration when its sample matches. `copy_style` builds a reusable style from a reference and `adjust_style` changes a saved copy. Preserve the actual returned saved version when chosen; a blocked reference needs its file rather than invented extraction.
+- ChatGPT: attach the video as `video` in `edit_video`; a song or picture goes through `import_asset` with `file`.
+- Claude and other hosts: call `edit_video` without a file and give the user the private upload link from the answer (it works for 15 minutes). If they have a song file but no link to it, set `song_upload: true`: the same link takes the video and the song.
+- A public link to a song or picture: `import_asset` `{url}`, then its key in `music_staging_key` or `asset_staging_keys`. Pictures already in their library: `list_assets`, then `asset_ids`.
+- In Claude Code or Codex with the file on disk: `node <this skill directory>/scripts/upload.mjs <file> <upload link>`.
+- One upload per video. Never ask for the same footage again: change the video already made, or for a separate new edit of the same footage pass `footage_from` with that video's `video_id` (if the answer says it is not open yet, follow the way it names).
 
-Show the completed Clypmint clone preview when available. Honor `preview_source`/`preview_label`: a native/sample preview is Clypmint output; a reference is separate source evidence and must be labeled as such. Select the look from the actual Clypmint preview instead of treating a source reference as its generated result.
+## While it is made
 
-With footage, send the complete brief in `edit_video`: purpose, hooks, shorts or clips, formats, speaker spelling, sound_effects, instructions, style and explicitly chosen assets. Use vertical for social and horizontal for YouTube when no shape was specified. Clips and source links are account-gated; use the private upload fallback when the tool says a link is unavailable.
+- Share `studio_url`. Where the host shows cards, the video card in the chat shows live progress on its own.
+- `check_video` waits for news before it answers (up to 20 seconds; 50 in Claude). Call it when the user is waiting or asks; do not call it in a tight loop. `get_video_activity` says what the editor is doing right now.
+- Say exactly what `check_video` says:
+  - ready: show it. If `length_ok` is false, say how long it is and offer its `next_step`.
+  - draft: say "This is a rough draft, not the finished edit" and offer its `next_step`.
+  - failed: say its `problem` and its `next_step`.
+- Never call a video ready until `check_video` says ready.
 
-Pass a genuine host-provided attachment descriptor only when the host supports it. Otherwise call `edit_video` without a file and show its private upload link (15 minutes). In a local coding environment, upload the file the user selected with [the upload helper](scripts/upload.mjs): run `node <this skill directory>/scripts/upload.mjs <selected-file> <private-upload-link>`. Resolve the directory from the loaded skill path. Never invent a downloadable attachment or assume access to a whole conversation, local folder or another account. If a link expires, resume the existing upload request and obtain its current link before admitting a new edit.
+## Changes: one call each
 
-Read `list_assets` before requesting media the account may already own. Recommend the exact logo, real product screen/photo or identified portrait when it improves the film. Idea-to-video needs no supplied assets; continue with an appropriate text/diagram/web-visual plan when the user has none. Gather a required identity asset only when the user specifically requested it. `import_asset` accepts a supported attachment descriptor or a direct public HTTPS image/song `url` (`logo: true` for the brand mark); its staging key goes in `asset_staging_keys`, while library IDs go in `asset_ids`. Name each supplied file's literal role in instructions. Read [asset gathering and host transport](references/assets-and-hosts.md) when an asset is needed or cannot be attached; honor actual refusals rather than inventing a file URL or substitute person.
+| They say | Call |
+| --- | --- |
+| "make it 30 seconds" | `revise_video` `{change: "Cut it to 30 seconds"}` |
+| "swap the song for this one" | `import_asset`, then `apply_edits` `{ops: [{op: "music", enabled: true, music_staging_key}]}` |
+| "add some calm background music" (no song of theirs) | `revise_video` `{change: "Add a calm music bed under the narration"}`; at creation `create_video` `music_bed: true` |
+| "no music" | `apply_edits` `{ops: [{op: "music", enabled: false}]}` |
+| "cut it to the beat" | `apply_edits` music with `beat_sync: true` (montages) |
+| "make the hook shorter" | `revise_video` `{change: "Make the opening shorter", output_id}` of that hook |
+| "remove the second explainer" | `get_project_context`, then `apply_edits` `{ops: [{op: "remove", scene_id}]}` |
+| "his name is spelled Kunal" | `fix_captions` `{replace: [{heard, spelled}]}` |
+| "change the headline to X" | `get_project_context`, then `apply_edits` `set_text` |
+| "use Brian's voice" | `revise_video` `{voice: "brian", change: "Change narrator to Brian. Keep the script and edit."}` |
+| "make it vertical" | `apply_edits` `{ops: [{op: "output_frame", frame: {ratio: "9:16", fit: "subject"}}]}`: reshapes this video, following the subject. `fit: "contain"` (bars) only when they ask to fit it or keep everything in. No canvas on that version: `revise_video` `{change: "Make it vertical, 9:16"}` |
+| "a square version too" / "also a vertical one" | the same op with `add: true`: a new output in that shape, the original kept. If the answer says that comes with the next release, do the way it names (download this one, then reshape) and say so |
+| "you cropped it" / "back to the original shape" | `apply_edits` `{ops: [{op: "output_frame", frame: null}]}` alone: one call, no new upload |
+| "undo that" | `list_versions`, then `restore_version` |
+| "use clip 2 as the intro of my video" / "put that clip inside" / "use it as the whole video" | `save_clip` `{video_id, output_id}`, then `edit_video` or `create_video` with the returned `asset_id` in `asset_ids` and where it goes in `instructions` (the whole video needs no second edit: download the clip) |
 
-## One request, one operation
+Say a change to one part in words ("make the opening shorter"), not as a number of seconds: a number of seconds in a change is read as the length of the whole video. `apply_edits` and `fix_captions` are exact and free. `revise_video` costs 1 credit (`dry_run: true` says the price). `get_thread` shows past changes. Batch several exact changes into one `apply_edits` call.
 
-Choose a stable operation ID for every mutation and preserve the original arguments on retries. Keep import, video, plan and output IDs between calls. A timeout or reconnect resumes the same operation; a deliberate new request gets a new ID. Carry the current version as `base_version` for a creative revision and `expectedEditId` for scheduling. Repeated requests must not consume another edit or create duplicate posts.
+## Also
 
-## Progress and review
-
-After admission share the Studio project link. Use `get_video_activity` for real stages and useful progress, and `check_video` for the result. Reads never admit another job. Avoid rapid polling; roughly 20–30 seconds is appropriate while an edit is active.
-
-Only `check_video` establishes readiness. During a revision the previous version may remain playable; identify it as the previous cut and wait for the revised version. Repeat a failed video's `problem` and `next_step` accurately. A finished render, playable media and an accepted edit are distinct outcomes.
-
-Show the actual selected output and version, preserve earlier versions, and carry `output_id` for one hook, Short or format. Watch/listen with available host tools or let the user be the audiovisual reviewer through the usable card/Studio link. A ready flag or screenshot does not establish a good voice or mix. Read [review and natural follow-ups](references/review-and-followups.md) before correcting a film. Ask `check_video` with `with_download: true` only when the user requests the file. Signed playback/download URLs stay in the visual card's private metadata.
-
-## Choose the smallest useful change
-
-- Inspect `get_project_context` before referring to scene IDs, word ranges or caption lines.
-- Use `fix_captions` for exact words or a spelling replacement. It does not spend a creative round. A two-word mishearing cannot become one caption word; remember the spelling when requested and use a creative revision for this video.
-- Use `apply_edits` for supported direct scene, picture, text, caption, word-cut and sound changes. Its operations apply together or return an explicit refusal; do not call a refused edit successful.
-- Use `revise_video` for a creative change. Preserve unrelated footage, cuts, graphics and sound. Name `output_id` to change one output. Add captions explicitly when requested on a captionless style; use contain framing when the user asks to preserve the complete portrait.
-- For “Use Brian but keep everything else”, inspect actual `check_video.narration.can_change`, audition the selected voice, and send `revise_video` with explicit `voice` plus “Change narrator to Brian. Keep the script and edit.” This supports retained main scratch narration only. Send other visual edits separately; mixed instructions or unsupported source narration are explicitly refused.
-- Use `list_versions` and `restore_version` to undo. `get_thread` shows edit history.
-- Use `remember`, `list_memory` and `forget` for lasting preferences the user wants retained. A one-off asset swap or voice change is not automatically a global rule.
-
-For voiced faceless films in every style, use the exact approved narration as the visual timeline. On-screen phrases must match the speech during their scene, product actions must appear when described, and sound cues must land on those actions. Use explicit sounds:[] for quiet scenes or a small number of purposeful named scene cues; explicit cues replace automatic effects in that scene. Review real playback for word alignment and a voice-first mix; a ready flag cannot confirm it. Preserve the style's sound defaults and the user's explicit music direction. Do not invent a music request or replace the bed while making an unrelated change. An explicit no-music or no-effects request wins. Keep the exact approved script when `create_video` receives `script`; `idea` permits narration writing. Duration options and narrators come from the current schema. `create_videos` handles up to 10 items with shared defaults and stable per-item operation IDs.
-
-## Content plans and publication
-
-For a month of content, read [the content workflow](references/content-workflows.md). Write concepts, exact scripts and captions in the conversation, then send them as `items` to `plan_content`. This plans only. Show the plan and credit estimate; use `edit_content_plan` for changes. `approve_plan` makes videos and can schedule their publication, so use it only after approval explicitly covers both generation and publication. A review-only batch uses `create_videos` instead.
-
-For existing videos, `schedule_plan` with `approve: false` checks slots without posting. After explicit publication approval, `approve: true` schedules eligible outputs. `get_content_plan` and `list_posts` show outcomes; `post_content_plan` resumes approved slots waiting for connected accounts or a new time.
-
-Publishing requires `clypmint.publish` and connected accounts. Establish the approved output/version, destination account, caption, date and IANA timezone. Obtain the required YouTube audience/visibility and TikTok privacy, interactions, disclosure and sharing choices. `connect_social_accounts` opens an account-owner authorization link when requested. Never expand permissions silently.
-
-Provider-confirmed scheduling, pending acknowledgment, partial delivery and actual publication are separate states. Do not repost successful destinations after a partial failure. Recurring creative work requires a supported host scheduler and an agreed brief, cadence, timezone and budget. A written plan is not an active automation. Default to drafts when publication was not authorized.
+- `create_videos` makes up to 10 videos from words at once; `edit_content_plan` and `get_content_plan` manage a month's plan.
+- `remember`, `list_memory` and `forget` keep lasting preferences, only when the user asks for them to last.
+- Spending tools say their credit cost in their answer; `get_profile` shows credits left. `dry_run: true` prices a request without starting it, for when the user asks what something costs.
+- Making a video never authorizes posting it. Posting tools (`schedule_post`, `schedule_plan`, `approve_plan`, `post_content_plan`) appear only where posting is open on the account; when they are not in your list, say posting is not open yet and offer the download. Where they are: `schedule_plan` with `approve: false` shows a schedule; schedule or post only after the user says yes.
+- Deeper notes: [music and styles](references/music-and-style.md), [changes and the canvas](references/review-and-followups.md), [posting and monthly plans](references/content-workflows.md), [what Clypmint can do](references/capabilities-and-handoff.md).

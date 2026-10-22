@@ -34,8 +34,9 @@ function handoffToken(uploadLink) {
   if (link.protocol !== 'https:' || link.hostname !== 'clypmint.com') {
     throw new Error('The upload link must be a Clypmint link.');
   }
+  // a real token is hof_<24 hex>.<32 url-safe> (contracts HANDOFF_TOKEN_PATTERN); the dot was refused before (2026-10-15)
   const token = link.hash.slice(1);
-  if (!/^hof_[A-Za-z0-9_-]+$/u.test(token)) {
+  if (!/^hof_[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)?$/u.test(token)) {
     throw new Error('The upload link is missing its private upload code.');
   }
   return token;
@@ -64,6 +65,9 @@ async function sha256(file) {
 function requestHeaders(token, json = false) {
   return {
     Authorization: `Bearer ${token}`,
+    // /send uses this same routing mark. The token is still verified by the
+    // core and authorizes only its own upload; it is not a Studio JWT.
+    'x-clypmint-backend': 'core',
     ...(json ? { 'Content-Type': 'application/json' } : {}),
   };
 }
@@ -106,6 +110,9 @@ async function putPart({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/octet-stream',
+          // Node streams otherwise use chunked encoding, which S3's signed
+          // multipart PUT rejects (501). Browser Blobs provide this length.
+          'Content-Length': String(end - start),
           ...(target.transport === 'api' ? requestHeaders(token) : {}),
         },
         body: partBody(file, start, end),
@@ -228,23 +235,30 @@ export async function uploadVideo({
     'complete',
   );
 
-  // The handoff starts the edit as soon as the source is durable. It is safe
-  // to ignore a missing endpoint during a rolling deployment: the handoff is
-  // still picked up by the normal upload path.
+  // The handoff starts the edit after the source is durable. A 404 can belong
+  // to a non-MCP handoff; other failures must not be reported as a started edit.
   try {
-    await fetchImpl(`${API_ORIGIN}/api/mcp/handoff-landed`, {
+    const landed = await fetchImpl(`${API_ORIGIN}/api/mcp/handoff-landed`, {
       method: 'POST',
       headers: requestHeaders(token),
     });
-  } catch {
-    // Best effort only.
+    if (!landed.ok && landed.status !== 404)
+      throw new Error(
+        `The file is uploaded, but starting the edit needs a retry (${landed.status}). Check the existing import before uploading again.`,
+      );
+  } catch (error) {
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : 'The file is uploaded. Check the existing import before uploading again.',
+    );
   }
   return completed;
 }
 
 function safeMessage(error) {
   const message = error instanceof Error ? error.message : 'Upload failed.';
-  return message.replace(/hof_[A-Za-z0-9_-]+/gu, '[private upload code]');
+  return message.replace(/hof_[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)?/gu, '[private upload code]');
 }
 
 async function main() {
