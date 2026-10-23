@@ -28,6 +28,10 @@ Use [Clypmint setup](https://clypmint.com/integrations) for your host. The hoste
 
 A **full plugin** bundles tools and skills. A **custom MCP connection** exposes tools but does not automatically install skills from GitHub. For OpenAI distribution, Clypmint's server supplies the four skills during the developer portal's Scan Tools step; installed plugins receive the reviewed version. Claude distributes the skills and MCP connection together through the Git-hosted plugin bundle. Public directory review and publication are separate from this repository's availability.
 
+## Claude directory editing edition
+
+`plugins/clypmint-editing/` is a separate, restricted edition for deterministic edits to existing projects. It has its own OAuth audience and 20 enforced tools, with no synthetic video/image/audio generation, chat-file extraction, posting, local scripts or dynamically fetched skills. See [Clypmint Editing](https://clypmint.com/claude/editing). Repository availability is separate from directory review, approval and publication.
+
 ## Try it
 
 - “Use Clypmint to edit this video. Show me the styles first.”
