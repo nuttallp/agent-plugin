@@ -11,6 +11,6 @@ An exact part ("the bit from 12:30 to 13:20"): `clips: {count: 1, from_seconds: 
 
 Attach the recording in ChatGPT; elsewhere give the user the private upload link from the answer. In Claude Code or Codex with the file on disk, use the main skill's upload helper.
 
-`check_video` lists every clip as an output. Show them and keep the `output_id` of the one they want to change; changes follow the main skill's table. Posting needs their yes: `schedule_plan` with `approve: false` first.
+`check_video` lists every clip as an output. Show them and keep the `output_id` of the one they want to change; changes follow the main skill's table. Compare the returned count and durations with the brief. Report missing or draft clips; do not claim ten clips when fewer were made. For downloads, request the selected output through `check_video` with `with_download: true`. Offer scheduling only when its tools are exposed, and require explicit publishing authorization.
 
 Use a clip in another video: `save_clip` `{video_id, output_id}` keeps it and returns an `asset_id`. Then call `edit_video` with the user's own footage (or `create_video`) with that id in `asset_ids`, and say where it goes in `instructions`: "open the video with it", "cut it in around the pricing point", or nothing more if it is the whole video (download it from `check_video`).

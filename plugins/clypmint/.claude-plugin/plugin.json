@@ -1,14 +1,28 @@
 {
   "name": "clypmint",
   "displayName": "Clypmint",
-  "version": "1.5.0",
-  "description": "Create, edit, clip, fix and schedule Clypmint videos through conversation: a month of faceless posts, podcast clips, ads with three hooks.",
+  "version": "1.5.1",
+  "description": "Edit footage, add captions, clip podcasts into Shorts and create videos from scripts. Review playable results and revise the selected output in the same project.",
   "author": {
     "name": "Clypmint",
     "url": "https://clypmint.com"
   },
   "homepage": "https://clypmint.com/claude",
-  "keywords": ["video editing", "AI video editor", "captions", "subtitles", "podcast clips", "shorts", "reels", "tiktok", "youtube", "talking head", "faceless video", "editing styles", "MCP"],
+  "keywords": [
+    "video editing",
+    "AI video editor",
+    "captions",
+    "subtitles",
+    "podcast clips",
+    "shorts",
+    "reels",
+    "tiktok",
+    "youtube",
+    "talking head",
+    "faceless video",
+    "editing styles",
+    "MCP"
+  ],
   "license": "MIT",
   "repository": "https://github.com/nuttallp/agent-plugin",
   "icon": "./assets/logo.png",

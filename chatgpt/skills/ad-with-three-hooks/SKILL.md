@@ -7,4 +7,4 @@ description: Edit real footage into a Clypmint ad with three opening hooks and t
 
 Attach the footage in ChatGPT; elsewhere give the user the private upload link from the answer.
 
-`check_video` lists the main cut and each hook as outputs. Show them. A change to one hook is `revise_video` with that hook's `output_id`; exact fixes are `apply_edits` and `fix_captions`. Making an ad never authorizes running or posting it.
+`check_video` lists the main cut and each hook as outputs. Check that all requested hooks and shapes are present and playable; report missing outputs instead of calling the ad complete. Show them. A change to one hook is `revise_video` with that hook's `output_id`; exact fixes are the named direct edit tools and `fix_captions`. Making an ad never authorizes running or posting it.

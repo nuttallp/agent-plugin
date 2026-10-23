@@ -1,6 +1,6 @@
 # Clypmint for Claude
 
-Create and edit videos through conversation. Claude develops the idea, script and changes; Clypmint shows editing styles, progress, playable video and the content calendar. The same project remains editable in Clypmint Studio.
+Create and edit videos through conversation. Claude develops the idea, script and changes; Clypmint shows editing styles, progress and playable results. The same project remains editable in Clypmint Studio.
 
 ## Install in Claude Code
 
@@ -28,7 +28,7 @@ This repository is the Clypmint-authored integration. Directory submission and A
 - “Show me video editing styles.”
 - “Edit this clip with readable captions and fast cuts.”
 - “Make a 30-second faceless video from this script.”
-- “Make 10 faceless videos about budgeting for nurses and schedule them over the next month.”
+- “Plan a month of faceless videos about budgeting for nurses. Show the scripts and credit quote before making anything.”
 - “Clip this podcast into vertical shorts.”
 - “Make this an ad with 3 hooks, vertical and square.”
 - “Fix the brand name in the captions, and remember how it is spelled.”
@@ -46,6 +46,16 @@ Scheduling requires a publishing-enabled Clypmint account, separate publishing c
 Recurring creative work runs through the host’s supported scheduler. Claude Code alone does not provide an always-on cloud schedule. Set the creative brief, cadence, timezone, generation limit and publication policy in chat. The workflow keeps an occurrence ledger, reuses operation IDs after interruptions, and reports failures. It never treats a written plan as an active automation. Approved publication appointments continue at the publishing provider after the chat closes.
 
 Editing, style copying and downloads follow the linked account’s existing limits. The plugin does not sell subscriptions or change billing.
+
+## What runs locally
+
+The skills are readable instructions, with no background hooks or package installation. The optional `upload.mjs` helper runs only for a local file the user selects. It reads that file, checks the private Clypmint upload link, obtains a signed upload destination from Clypmint, and sends the selected file there. It does not scan folders, read environment credentials, or upload other files. The MCP connection sends tool arguments to `https://clypmint.com/mcp` over HTTPS after account authorization.
+
+## Data handling
+
+The connected service reads and stores the account identity, media, briefs, transcripts, project edits and preferences explicitly sent to Clypmint. These can contain personal data. It does not read an entire Claude conversation. Uploaded source material, finished renders and project messages remain for the account's lifetime unless the user removes them or deletes the account, subject to the exceptions in the [privacy policy](https://clypmint.com/legal/privacy).
+
+The optional local upload helper sends the one selected file to `https://clypmint.com/api/studio/upload/` and Clypmint-issued signed Amazon S3 or Google Cloud Storage upload URLs. The temporary code comes from the explicit upload link, not a credential store; it is sent only to Clypmint's own API. HTTPS is required and redirects are refused. No other local files are inspected. Processing providers used by the hosted service are disclosed in the privacy policy. This integration is intended for adult creators and businesses.
 
 ## Privacy and support
 

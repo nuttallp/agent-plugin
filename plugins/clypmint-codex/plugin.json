@@ -1,7 +1,7 @@
 {
   "name": "clypmint",
-  "version": "1.5.0",
-  "description": "Create, edit and revise videos with your AI, with visual previews and approved publishing receipts.",
+  "version": "1.5.1",
+  "description": "Edit footage, clip podcasts and create videos from scripts with playable previews and focused revisions.",
   "author": { "name": "Clypmint", "email": "parker@clypmint.com", "url": "https://clypmint.com" },
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "homepage": "https://clypmint.com/chatgpt",
@@ -27,7 +27,7 @@
       "interface": {
         "displayName": "Clypmint",
         "shortDescription": "Edit videos with your AI",
-        "longDescription": "Develop the brief with your AI. Clypmint edits the footage or approved script, returns visual results and continues the same project in Studio. Account rights and explicit publishing approval apply.",
+        "longDescription": "Turn your footage or approved script into a video. Review playable results, fix captions, revise a selected clip and continue the same project in Clypmint Studio. Existing account rights and usage limits apply.",
         "developerName": "Clypmint",
         "category": "Creativity",
         "websiteURL": "https://clypmint.com",
@@ -41,15 +41,14 @@
         "defaultPrompt": [
           "Edit my video, then help me revise it.",
           "Make a video from my approved script.",
-          "Inspect my video and fix a caption or scene.",
           "Clip the 3 best moments about a topic from my podcast."
         ],
         "capabilities": [
-          "Edit and create videos",
-          "Review and revise videos",
-          "Browse and save styles",
-          "Clip podcasts and long videos",
-          "Cut montages and gaming highlights"
+          "Edit footage and captions",
+          "Create videos from scripts",
+          "Clip podcasts into Shorts",
+          "Review and revise outputs",
+          "Browse and reuse editing styles"
         ]
       },
       "onboardingSkill": "./skills/edit-video/SKILL.md"

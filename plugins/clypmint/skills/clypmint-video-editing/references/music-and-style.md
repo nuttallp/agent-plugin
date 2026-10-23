@@ -9,10 +9,10 @@
 
 ## Change the music of a video already made
 
-Read `get_project_context` for the version, then one `apply_edits` call:
+Read `get_project_context` for the version, then one `set_video_music` call:
 
-- Remove added music: `{"op": "music", "enabled": false}`. The camera sound and speech stay.
-- Add or swap a song: `{"op": "music", "enabled": true, "music_staging_key": "<key from import_asset>", "level_db": -18}`.
+- Remove added music: `{"enabled": false}`. The camera sound and speech stay.
+- Add or swap a song: `{"enabled": true, "music_staging_key": "<key from import_asset>", "level_db": -18}`.
 - Cut a montage to the beat: add `"beat_sync": true`. It works on montages made of source shots; a refusal keeps the video as it was, so say so.
 
 These are exact edits, and they are free. `check_video` confirms the new version.
