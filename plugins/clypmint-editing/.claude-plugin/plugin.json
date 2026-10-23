@@ -1,0 +1,23 @@
+{
+  "name": "clypmint-editing",
+  "displayName": "Clypmint Editing",
+  "version": "1.0.0",
+  "description": "Edit existing Clypmint video projects: correct captions, cut footage by words, adjust text and framing, preview, download and undo. No synthetic video, image or audio generation.",
+  "author": {
+    "name": "Clypmint",
+    "url": "https://clypmint.com"
+  },
+  "homepage": "https://clypmint.com/claude/editing",
+  "keywords": [
+    "video editing",
+    "captions",
+    "subtitles",
+    "video trimming",
+    "video reframing",
+    "project versions"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/nuttallp/agent-plugin",
+  "icon": "./assets/logo.png",
+  "privacyPolicyUrl": "https://clypmint.com/legal/privacy"
+}

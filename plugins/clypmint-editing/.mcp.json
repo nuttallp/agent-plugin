@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "clypmint-editing": {
+      "type": "http",
+      "url": "https://clypmint.com/mcp/claude-editing"
+    }
+  }
+}

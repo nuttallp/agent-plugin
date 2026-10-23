@@ -60,3 +60,12 @@ for (const path of [
 console.log(
   `PASS v${openai.version}: all four skills, dependencies, resources and marketplace paths agree across hosts.`,
 );
+
+// The directory edition is intentionally independent of the full-generation package.
+const editing = json('plugins/clypmint-editing/.claude-plugin/plugin.json');
+assert.equal(editing.name, 'clypmint-editing');
+assert.equal(json('plugins/clypmint-editing/.mcp.json').mcpServers['clypmint-editing'].url, 'https://clypmint.com/mcp/claude-editing');
+assert.deepEqual(readdirSync(resolve(root, 'plugins/clypmint-editing/skills')).sort(), ['correct-video-captions','edit-existing-video','reframe-existing-video']);
+for (const file of readdirSync(resolve(root, 'plugins/clypmint-editing'), {recursive:true}))
+  assert.ok(!/\.(?:mjs|js|py|sh|ts)$/u.test(String(file)), 'Editing edition has no executable scripts');
+console.log('PASS restricted Claude editing package and three static skills.');

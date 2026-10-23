@@ -8,6 +8,10 @@
     {
       "name": "clypmint",
       "source": "./plugins/clypmint"
+    },
+    {
+      "name": "clypmint-editing",
+      "source": "./plugins/clypmint-editing"
     }
   ]
 }
