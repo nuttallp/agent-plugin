@@ -31,7 +31,7 @@ function handoffToken(uploadLink) {
   } catch {
     throw new Error('The upload link is not valid.');
   }
-  if (link.protocol !== 'https:' || link.hostname !== 'clypmint.com') {
+  if (link.origin !== API_ORIGIN || link.username || link.password || link.pathname !== '/send') {
     throw new Error('The upload link must be a Clypmint link.');
   }
   // a real token is hof_<24 hex>.<32 url-safe> (contracts HANDOFF_TOKEN_PATTERN); the dot was refused before (2026-10-15)
@@ -72,6 +72,27 @@ function requestHeaders(token, json = false) {
   };
 }
 
+/** The handoff code is supplied explicitly for this upload, never read from credentials or env. */
+export function checkedPartTarget(target) {
+  const url = new URL(target.url);
+  if (url.protocol !== 'https:' || url.username || url.password || url.port || url.hash)
+    throw new Error('The upload service returned an unsafe destination.');
+  if (target.transport === 'api') {
+    if (url.origin !== API_ORIGIN || !url.pathname.startsWith('/api/studio/upload/'))
+      throw new Error('Private upload codes can only be sent to Clypmint upload endpoints.');
+  } else if (target.transport === 's3') {
+    if (!/^(?:[a-z0-9-]+\.)*s3(?:[.-][a-z0-9-]+)?\.amazonaws\.com$/u.test(url.hostname))
+      throw new Error('The upload service returned an unexpected S3 destination.');
+  } else if (target.transport === 'gcs-xml') {
+    if (
+      url.hostname !== 'storage.googleapis.com' &&
+      !url.hostname.endsWith('.storage.googleapis.com')
+    )
+      throw new Error('The upload service returned an unexpected storage destination.');
+  } else throw new Error('The upload service returned an unsupported transport.');
+  return url.href;
+}
+
 async function responseJson(response, stage) {
   if (!response.ok) throw new Error(`${stage} request failed (${response.status}).`);
   try {
@@ -106,8 +127,9 @@ async function putPart({
     try {
       const target = getTarget(partNumber);
       if (!target?.url) throw new Error(`The upload service did not provide part ${partNumber}.`);
-      const response = await fetchImpl(target.url, {
+      const response = await fetchImpl(checkedPartTarget(target), {
         method: 'PUT',
+        redirect: 'error',
         headers: {
           'Content-Type': 'application/octet-stream',
           // Node streams otherwise use chunked encoding, which S3's signed
@@ -156,6 +178,7 @@ export async function uploadVideo({
   const start = await responseJson(
     await fetchImpl(`${API_ORIGIN}/api/studio/upload/start`, {
       method: 'POST',
+      redirect: 'error',
       headers: requestHeaders(token, true),
       body: JSON.stringify({
         filename,
@@ -190,6 +213,7 @@ export async function uploadVideo({
     const result = await responseJson(
       await fetchImpl(`${API_ORIGIN}/api/studio/upload/presign-parts`, {
         method: 'POST',
+        redirect: 'error',
         headers: requestHeaders(token, true),
         body: JSON.stringify({ key: start.key, partNumbers }),
       }),
@@ -224,6 +248,7 @@ export async function uploadVideo({
   const completed = await responseJson(
     await fetchImpl(`${API_ORIGIN}/api/studio/upload/complete`, {
       method: 'POST',
+      redirect: 'error',
       headers: requestHeaders(token, true),
       body: JSON.stringify({
         key: start.key,
@@ -240,6 +265,7 @@ export async function uploadVideo({
   try {
     const landed = await fetchImpl(`${API_ORIGIN}/api/mcp/handoff-landed`, {
       method: 'POST',
+      redirect: 'error',
       headers: requestHeaders(token),
     });
     if (!landed.ok && landed.status !== 404)
