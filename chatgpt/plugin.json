@@ -116,8 +116,7 @@
             }
           ]
         },
-        "demo_recording_url": "https://dshn0l6nmr40m.cloudfront.net/reviews/20261010/83aa231dec30/index.html",
-        "release_notes": "1.5.1: intent-scoped skills, explicit output and revision checks, download handoff guidance, retry continuity, current-account cost quotes, and content planning without assuming publishing availability."
+        "demo_recording_url": "https://dshn0l6nmr40m.cloudfront.net/reviews/20261010/83aa231dec30/index.html"
       },
       "publication": {
         "release_notes": "1.5.1: intent-scoped skills, explicit output and revision checks, download handoff guidance, retry continuity, current-account cost quotes, and content planning without assuming publishing availability."
