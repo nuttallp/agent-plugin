@@ -15,7 +15,8 @@
 | The account                                                                                                       | `get_profile`, `get_account_identity`                                                                                                  |
 
 - A tool that refuses says why and what to send instead. Follow it once; do not retry the same call unchanged.
-- Something Clypmint cannot do: say so plainly. If the host has its own video tools and the user wants it, do it there and say it is separate from the Clypmint project.
+- Something Clypmint cannot do: say so plainly. Not by chat yet: speed changes, splitting or looping a saved video, copying a reference video's style (use `copy_style`), and finding clips in a long video (use `edit_video` with `clips`). Never promise these.
+- For anything else it cannot do: if the host has its own video tools and the user wants it, do it there and say it is separate from the Clypmint project.
 - Installed skills can be older than the server. `get_workflow` returns the current guidance; reconnect the connector if a tool in these notes is missing.
 
 ## Direct edit tools

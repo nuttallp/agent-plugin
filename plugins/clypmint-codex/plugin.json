@@ -1,6 +1,6 @@
 {
   "name": "clypmint",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Edit footage, clip podcasts and create videos from scripts with playable previews and focused revisions.",
   "author": { "name": "Clypmint", "email": "parker@clypmint.com", "url": "https://clypmint.com" },
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
