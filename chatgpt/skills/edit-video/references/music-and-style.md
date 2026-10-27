@@ -15,6 +15,8 @@ Read `get_project_context` for the version, then one `set_video_music` call:
 - Add or swap a song: `{"enabled": true, "music_staging_key": "<key from import_asset>", "level_db": -18}`.
 - Cut a montage to the beat: add `"beat_sync": true`. It works on montages made of source shots; a refusal keeps the video as it was, so say so.
 
+Volume of the music: `level_db`, or ask `revise_video` ("music quieter"). To mute the camera's own sound over chosen seconds, ask `revise_video`.
+
 These are exact edits, and they are free. `check_video` confirms the new version.
 
 ## Styles

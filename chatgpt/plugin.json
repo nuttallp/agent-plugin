@@ -1,6 +1,6 @@
 {
   "name": "clypmint",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Edit your footage, clip podcasts into Shorts and create videos from scripts. Review playable results, fix captions and revise selected outputs in the same project.",
   "author": {
     "name": "Clypmint",
@@ -119,7 +119,7 @@
         "demo_recording_url": "https://dshn0l6nmr40m.cloudfront.net/reviews/20261010/83aa231dec30/index.html"
       },
       "publication": {
-        "release_notes": "1.5.1: intent-scoped skills, explicit output and revision checks, download handoff guidance, retry continuity, current-account cost quotes, and content planning without assuming publishing availability."
+        "release_notes": "1.6.0: revise_video answers questions about a video from its real frames, switches styles, exports and shares, and says plainly what a typed change can and cannot do; montages, gameplay and videos from words go through the same editor."
       }
     }
   }
