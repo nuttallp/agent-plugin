@@ -9,19 +9,18 @@
 
 ## Change the music of a video already made
 
-Read `get_project_context` for the version, then one `set_video_music` call:
+One `set_audio` call with `music`:
 
-- Remove added music: `{"enabled": false}`. The camera sound and speech stay.
-- Add or swap a song: `{"enabled": true, "music_staging_key": "<key from import_asset>", "level_db": -18}`.
-- Cut a montage to the beat: add `"beat_sync": true`. It works on montages made of source shots; a refusal keeps the video as it was, so say so.
+- Remove added music: `{"on": false}`. The camera sound and speech stay.
+- Add or swap a song: `{"on": true, "asset_id": "<from import_media>"}`, or `"music_staging_key"` for a song attached in the chat (`import_asset`); one of Clypmint's own songs: `"track"` (`get_guide` topic `sound` lists them). `gain_db` sets its level, `duck` lowers it under speech.
+- Cut a montage to the beat: `revise_video` ("cut it to the beat of the song"). A refusal keeps the video as it was, so say so.
 
-Volume of the music: `level_db`, or ask `revise_video` ("music quieter"). To mute the camera's own sound over chosen seconds, ask `revise_video`.
-
-These are exact edits, and they are free. `check_video` confirms the new version.
+To mute the camera's own sound over chosen seconds: `set_audio` `camera_sound`. These are exact edits, and they are free; `get_screenshot` and `check_video` show the new version. A video with no editable canvas changes its music with `revise_video`.
 
 ## Styles
 
-- `browse_styles` lists house styles and the user's saved styles (`own: true`, with `style_version`). Pass the one they name as `style_id`; leave it out when they did not choose and Clypmint picks.
+- `browse_styles` lists house styles and the user's saved styles (`own: true`, with `style_version`). Pass the one they name, or a saved style of theirs that fits (`get_profile` `own_styles`), as `style_id`; otherwise leave it out and Clypmint keeps their look.
+- `browse_styles` shows the style cards in the chat, so call it only when they ask to see or choose styles, or name one. `get_profile` lists their own saved styles as `own_styles`, with no cards: read it before the first edit.
 - `format` says what a style is for: `talking` (someone on camera), `faceless` (a narrated video from words), `motion` (type and music, no narrator unless a `voice` is given).
 - `copy_style` makes a new saved style from a reference video link or file; `adjust_style` changes a saved style in plain words for later videos.
 - Show a style's preview when the user is choosing. Do not describe a style the catalog does not return.
