@@ -24,7 +24,7 @@ for (const [base, main] of [
   const names = readdirSync(resolve(root, base, 'skills')).sort();
   assert.deepEqual(
     names,
-    ['ad-with-three-hooks', 'clip-podcast-into-shorts', main, 'month-of-faceless-posts'].sort(),
+    ['ad-with-three-hooks', 'canvas-editing', 'clip-podcast-into-shorts', main, 'month-of-faceless-posts'].sort(),
   );
   for (const name of names) {
     const canonicalName = name === 'clypmint-video-editing' ? 'edit-video' : name;
@@ -58,7 +58,7 @@ for (const path of [
 ])
   assert.equal(json(path).mcpServers.clypmint.url, 'https://clypmint.com/mcp');
 console.log(
-  `PASS v${openai.version}: all four skills, dependencies, resources and marketplace paths agree across hosts.`,
+  `PASS v${openai.version}: all five skills, dependencies, resources and marketplace paths agree across hosts.`,
 );
 
 // The directory edition is intentionally independent of the full-generation package.
