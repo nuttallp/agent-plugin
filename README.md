@@ -1,6 +1,8 @@
 # Clypmint Agent Plugin
 
-Edit videos by chatting: cuts, captions, styles, podcast clips and revisions, in ChatGPT, Claude, Claude Code and Codex. Install one plugin to get the Clypmint connection and all four agent skills. Develop the brief in chat, preview the result, ask for changes, and continue the same project in [Clypmint Studio](https://clypmint.com/studio).
+Edit videos by chatting: cuts, captions, styles, podcast clips and revisions, in ChatGPT, Claude, Claude Code and Codex. Install one plugin to get the Clypmint connection and all five agent skills. Develop the brief in chat, preview the result, ask for changes, and continue the same project in [Clypmint Studio](https://clypmint.com/studio).
+
+[![Package validation](https://github.com/nuttallp/agent-plugin/actions/workflows/package.yml/badge.svg)](https://github.com/nuttallp/agent-plugin/actions/workflows/package.yml) [![Security checks](https://github.com/nuttallp/agent-plugin/actions/workflows/repository-security.yml/badge.svg)](https://github.com/nuttallp/agent-plugin/actions/workflows/repository-security.yml)
 
 ## Install
 
@@ -26,7 +28,7 @@ Enable Clypmint in the desktop Plugins page, complete account sign-in, and start
 
 Use [Clypmint setup](https://clypmint.com/integrations) for your host. The hosted endpoint is `https://clypmint.com/mcp` and uses your Clypmint account's OAuth connection.
 
-A **full plugin** bundles tools and skills. A **custom MCP connection** exposes tools but does not automatically install skills from GitHub. For OpenAI distribution, Clypmint's server supplies the four skills during the developer portal's Scan Tools step; installed plugins receive the reviewed version. Claude distributes the skills and MCP connection together through the Git-hosted plugin bundle. Public directory review and publication are separate from this repository's availability.
+A **full plugin** bundles tools and skills. A **custom MCP connection** exposes tools but does not automatically install skills from GitHub. For OpenAI distribution, Clypmint's server supplies the five skills during the developer portal's Scan Tools step; installed plugins receive the reviewed version. Claude distributes the skills and MCP connection together through the Git-hosted plugin bundle. Public directory review and publication are separate from this repository's availability.
 
 ## Claude directory editing edition
 
@@ -47,7 +49,7 @@ You can ask naturally; installed skills activate automatically when relevant. Id
 
 | Package                            | Contents                                                                           |
 | ---------------------------------- | ---------------------------------------------------------------------------------- |
-| `chatgpt/`                         | OpenAI submission package: four skills, supporting files, icons and MCP connection |
+| `chatgpt/`                         | OpenAI submission package: five skills, supporting files, icons and MCP connection |
 | `plugins/clypmint-codex/`          | Portable ChatGPT Work/Codex marketplace package                                    |
 | `plugins/clypmint/`                | Claude-compatible plugin: skills and remote MCP connection                         |
 | `.agents/plugins/marketplace.json` | OpenAI marketplace catalog                                                         |
@@ -63,7 +65,7 @@ If you already made a personal ChatGPT custom app, you can add the bundled skill
 node scripts/package-personal-chatgpt.mjs ~/Downloads/plugin.zip ./clypmint-personal-update.zip
 ```
 
-Use **Upload new version** on that same plugin and choose the new ZIP. The helper preserves its existing identity and app binding, includes all four current skills, and leaves sign-in permissions unchanged. Confirm **Skills 4** and the package version in the plugin details, then refresh tools in **Manage** and start a new chat. A failed tool refresh is still a host error to resolve; the bundled skills do not create missing actions.
+Use **Upload new version** on that same plugin and choose the new ZIP. The helper preserves its existing identity and app binding, includes all five current skills, and leaves sign-in permissions unchanged. Confirm **Skills 5** and the package version in the plugin details, then refresh tools in **Manage** and start a new chat. A failed tool refresh is still a host error to resolve; the bundled skills do not create missing actions.
 
 For Codex, run `codex plugin marketplace upgrade clypmint`, update the installed plugin through the desktop Plugins page and start a new chat. In Claude Code, run `/plugin marketplace update clypmint` and `/plugin update clypmint@clypmint`, then start a new session.
 
@@ -76,3 +78,7 @@ Your connected Clypmint account's rights and credits apply. Creating or reviewin
 Credentials stay in the host's sign-in flow. The local upload helper accepts a short-lived Clypmint upload link as an explicit argument for the file the user selected. It never reads OAuth credentials, environment variables or saved account files. This temporary upload code is sent to Clypmint’s own service and is omitted from direct signed-storage uploads. Never commit access tokens, private upload links or signed media URLs. The integration files are MIT licensed; hosted service rights are separate.
 
 [Setup and examples](https://clypmint.com/integrations) · [Privacy](https://clypmint.com/legal/privacy) · [Terms](https://clypmint.com/legal/terms) · [Support](mailto:parker@clypmint.com)
+
+## Development and security
+
+Run `node scripts/check-package.mjs` with Node 22 or newer to validate package parity without production access. See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). Use the Actions run URL, plugin version, host, and sanitized error details for support; never share OAuth tokens or private upload links. Repository checks do not measure hosted service uptime.

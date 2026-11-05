@@ -1,3 +1,18 @@
 .DS_Store
 .env*
 node_modules/
+
+# Local credentials and generated state
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.template
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+__pycache__/
+.venv/
