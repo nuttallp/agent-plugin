@@ -1,0 +1,15 @@
+[extend]
+useDefault = true
+
+# Native GitHub scanning also covers this token. Keep local/CI detection for private repositories.
+[[rules]]
+id = "supabase-personal-access-token"
+description = "Supabase personal access token"
+regex = '''sbp_[A-Za-z0-9_-]{30,}'''
+keywords = ["sbp_"]
+
+[[rules]]
+id = "clypmint-api-key"
+description = "Clypmint API key"
+regex = '''cm_live_[A-Za-z0-9_-]{40,}'''
+keywords = ["cm_live_"]
